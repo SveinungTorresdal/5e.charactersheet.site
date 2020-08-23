@@ -1,0 +1,7 @@
+{
+    "name": "Ironforge Dwarf",
+    "bonuses": {
+        "strength": 1,
+        "constitution": 1
+    }
+}

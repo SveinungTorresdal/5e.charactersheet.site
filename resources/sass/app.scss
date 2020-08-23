@@ -1,0 +1,46 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+// Foundation
+html, body {
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+$classes: 
+    'artificer', 
+    'barbarian', 
+    'bard', 
+    'cleric', 
+    'druid', 
+    'fighter', 
+    'monk', 
+    'paladin', 
+    'ranger', 
+    'rogue', 
+    'sorcerer', 
+    'warlock', 
+    'wizard'
+;
+
+i.class-icon {
+    height: 1.2em;
+    width: 1.2em;
+    display: inline-block;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    border-radius: .25rem;
+}
+@each $class in $classes {
+    i.class-icon.#{$class} {
+        background-image: url("/img/class_icon/#{$class}.svg");
+    }
+}

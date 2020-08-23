@@ -1,0 +1,7 @@
+{
+    "name": "Blood Elf",
+    "bonuses": {
+        "dexterity": 2,
+        "intelligence": 1
+    }
+}
