@@ -4,7 +4,12 @@
             <div v-for="(data, skill) in skills" :key="`${skill}_${data.multiplier}`" class="dropdown">
                 <button id="classes-level-up" class="btn dropdown-toggle h-100 w-100 text-left d-flex flex-row align-items-center" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="mr-3 w-125 text-left">
-                        +{{ data.baseVal }}
+                        +{{ data.baseVal + data.multiplier * proficiencyBonus }}
+                        <small>
+                            <b v-if="data.advantage">
+                                x2
+                            </b>
+                        </small>
                     </span>
                     <small class="mr-3 w-125 text-left">
                         <b v-if="data.multiplier > 1" class="text-success">
@@ -22,14 +27,14 @@
                     </span>
                 </button>
                 <div id="available-classes" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <button class="dropdown-item d-flex flex-row align-items-center justify-content-start px-3" type="button">
-                        Unlearn
+                    <button class="dropdown-item d-flex flex-row align-items-center justify-content-start px-3" type="button" :name="`unlearn-${skill}`">
+                        <span class="flex-grow-1">Unlearn</span> <span v-if="data.multiplier === 0" class="ml-2">✔</span>
                     </button>
-                    <button class="dropdown-item d-flex flex-row align-items-center justify-content-start px-3" type="button">
-                        Proficient
+                    <button class="dropdown-item d-flex flex-row align-items-center justify-content-start px-3" type="button" :name="`proficient-${skill}`">
+                        <span class="flex-grow-1">Proficient</span> <span v-if="data.multiplier === 1" class="ml-2">✔</span>
                     </button>
-                    <button class="dropdown-item d-flex flex-row align-items-center justify-content-start px-3" type="button">
-                        Expertise
+                    <button class="dropdown-item d-flex flex-row align-items-center justify-content-start px-3" type="button" :name="`expertise-${skill}`">
+                        <span class="flex-grow-1">Expertise</span> <span v-if="data.multiplier === 2" class="ml-2">✔</span>
                     </button>
                 </div>
             </div>
@@ -60,29 +65,24 @@ export default {
     },
     computed: {
         ...mapGetters({
-            scores: 'scores',
-            level: 'totalLevel'
+            modifiers: 'modifiers',
+            knownSkills: 'skills',
+            level: 'totalLevel',
+            proficiencyBonus: 'proficiencyBonus'
         }),
-        modifiers () {
-            const modifier = input => Math.floor(input/2-5);
-
-            const modifiers = {};
-            Object.keys(this.scores).forEach(score => {
-                modifiers[score] = modifier(this.scores[score]);
-            });
-
-            return modifiers;
-        },
         skills () {
             const skills = {};
 
             Object.keys(this.skillCategories).forEach(stat => {
                 this.skillCategories[stat].forEach(skill => {
-                    skills[skill.replace(/ /g, '')] = {
+                    const noSpaceName = skill.replace(/ /g, '');
+                    skills[noSpaceName] = {
                         name: skill,
                         stat,
+                        advantage: false,
                         baseVal: this.modifiers[stat],
-                        multiplier: 0
+                        multiplier: 0,
+                        ...this.knownSkills[noSpaceName]
                     };
                 })
             });

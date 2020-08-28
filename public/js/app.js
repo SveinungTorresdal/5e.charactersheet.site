@@ -1990,6 +1990,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2005,10 +2021,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])({
     unlocked: 'getLocks'
-  })),
-  mounted: function mounted() {
-    console.log(this.unlocked);
-  },
+  }), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])({
+    loadingCharacter: function loadingCharacter(state) {
+      return state.loading.character;
+    },
+    loadingUpdate: function loadingUpdate(state) {
+      return state.loading.updating;
+    }
+  }), {
+    loading: function loading() {
+      return this.loadingCharacter || this.loadingUpdate;
+    }
+  }),
   methods: {
     onSubmit: function onSubmit() {
       var _this = this;
@@ -2233,27 +2257,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Classes",
@@ -2373,35 +2376,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   name: "Scores",
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
     scores: 'scores',
-    level: 'totalLevel'
+    level: 'totalLevel',
+    proficiencyBonus: 'proficiencyBonus'
   }), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])({
     editing: function editing(state) {
       return state.unlocked.scores;
     }
   }), {
-    modifiedScores: function modifiedScores() {
-      var _this = this;
-
-      if (!this.bonuses) {
-        return this.scores;
-      }
-
-      var modified = Object.assign({}, this.scores);
-      var keys = Object.keys(this.bonuses);
-      keys.forEach(function (key) {
-        return modified[key] += _this.bonuses[key];
-      });
-      return modified;
-    },
-    proficiencyBonus: function proficiencyBonus() {
-      return Math.floor(1.75 + this.level / 4);
-    },
     totalPointBuyCost: function totalPointBuyCost() {
-      var _this2 = this;
+      var _this = this;
 
       var tally = 0;
       Object.keys(this.scores).forEach(function (key) {
-        tally += _this2.pointBuyCost(_this2.scores[key]);
+        tally += _this.pointBuyCost(_this.scores[key]);
       });
       return tally;
     }
@@ -2496,6 +2483,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Skills",
@@ -2512,34 +2504,25 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     };
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
-    scores: 'scores',
-    level: 'totalLevel'
+    modifiers: 'modifiers',
+    knownSkills: 'skills',
+    level: 'totalLevel',
+    proficiencyBonus: 'proficiencyBonus'
   }), {
-    modifiers: function modifiers() {
-      var _this = this;
-
-      var modifier = function modifier(input) {
-        return Math.floor(input / 2 - 5);
-      };
-
-      var modifiers = {};
-      Object.keys(this.scores).forEach(function (score) {
-        modifiers[score] = modifier(_this.scores[score]);
-      });
-      return modifiers;
-    },
     skills: function skills() {
-      var _this2 = this;
+      var _this = this;
 
       var skills = {};
       Object.keys(this.skillCategories).forEach(function (stat) {
-        _this2.skillCategories[stat].forEach(function (skill) {
-          skills[skill.replace(/ /g, '')] = {
+        _this.skillCategories[stat].forEach(function (skill) {
+          var noSpaceName = skill.replace(/ /g, '');
+          skills[noSpaceName] = _objectSpread({
             name: skill,
             stat: stat,
-            baseVal: _this2.modifiers[stat],
+            advantage: false,
+            baseVal: _this.modifiers[stat],
             multiplier: 0
-          };
+          }, _this.knownSkills[noSpaceName]);
         });
       });
       var sorted = {};
@@ -7105,6 +7088,25 @@ __webpack_require__.r(__webpack_exports__);
 
 })));
 //# sourceMappingURL=bootstrap.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Character.vue?vue&type=style&index=0&id=79eaae64&scoped=true&lang=css&":
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Character.vue?vue&type=style&index=0&id=79eaae64&scoped=true&lang=css& ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.spinner-border-giant[data-v-79eaae64] {\n    height: 8rem;\n    width: 8rem;\n    border-width: 1.25rem;\n}\n", ""]);
+
+// exports
 
 
 /***/ }),
@@ -38742,6 +38744,36 @@ try {
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Character.vue?vue&type=style&index=0&id=79eaae64&scoped=true&lang=css&":
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Character.vue?vue&type=style&index=0&id=79eaae64&scoped=true&lang=css& ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./Character.vue?vue&type=style&index=0&id=79eaae64&scoped=true&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Character.vue?vue&type=style&index=0&id=79eaae64&scoped=true&lang=css&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Character/Basics.vue?vue&type=style&index=0&id=6b1548b6&scoped=true&lang=css&":
 /*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Character/Basics.vue?vue&type=style&index=0&id=6b1548b6&scoped=true&lang=css& ***!
@@ -39429,10 +39461,10 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var _typeof="fun
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Character.vue?vue&type=template&id=79eaae64&":
-/*!************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Character.vue?vue&type=template&id=79eaae64& ***!
-  \************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Character.vue?vue&type=template&id=79eaae64&scoped=true&":
+/*!************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Character.vue?vue&type=template&id=79eaae64&scoped=true& ***!
+  \************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -39457,247 +39489,294 @@ var render = function() {
       }
     },
     [
-      _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col mb-3" }, [
-          _c("div", { staticClass: "card" }, [
-            _c("div", { staticClass: "card-body p-2" }, [
-              _c("div", { staticClass: "row" }, [
-                _c("div", { staticClass: "col" }, [
-                  _c(
-                    "div",
-                    { staticClass: "form-check form-check-inline p-2" },
-                    [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.unlocked.basics,
-                            expression: "unlocked.basics"
-                          }
-                        ],
-                        staticClass: "form-check-input",
-                        attrs: {
-                          type: "checkbox",
-                          id: "lock-basics",
-                          name: "basics"
-                        },
-                        domProps: {
-                          checked: Array.isArray(_vm.unlocked.basics)
-                            ? _vm._i(_vm.unlocked.basics, null) > -1
-                            : _vm.unlocked.basics
-                        },
-                        on: {
-                          click: _vm.toggleLock,
-                          keyup: function($event) {
-                            $event.preventDefault()
-                            return _vm.toggleLock($event)
-                          },
-                          change: function($event) {
-                            var $$a = _vm.unlocked.basics,
-                              $$el = $event.target,
-                              $$c = $$el.checked ? true : false
-                            if (Array.isArray($$a)) {
-                              var $$v = null,
-                                $$i = _vm._i($$a, $$v)
-                              if ($$el.checked) {
-                                $$i < 0 &&
-                                  _vm.$set(
-                                    _vm.unlocked,
-                                    "basics",
-                                    $$a.concat([$$v])
-                                  )
-                              } else {
-                                $$i > -1 &&
-                                  _vm.$set(
-                                    _vm.unlocked,
-                                    "basics",
-                                    $$a.slice(0, $$i).concat($$a.slice($$i + 1))
-                                  )
+      _vm.loadingCharacter
+        ? _c(
+            "div",
+            {
+              staticClass:
+                "container h-100 d-flex align-items-center justify-content-center"
+            },
+            [_vm._m(0)]
+          )
+        : _c("div", { staticClass: "container h-100" }, [
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col mb-3" }, [
+                _c("div", { staticClass: "card" }, [
+                  _c("div", { staticClass: "card-body p-2" }, [
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col" }, [
+                        _c(
+                          "div",
+                          { staticClass: "form-check form-check-inline p-2" },
+                          [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.unlocked.basics,
+                                  expression: "unlocked.basics"
+                                }
+                              ],
+                              staticClass: "form-check-input",
+                              attrs: {
+                                type: "checkbox",
+                                id: "lock-basics",
+                                name: "basics"
+                              },
+                              domProps: {
+                                checked: Array.isArray(_vm.unlocked.basics)
+                                  ? _vm._i(_vm.unlocked.basics, null) > -1
+                                  : _vm.unlocked.basics
+                              },
+                              on: {
+                                click: _vm.toggleLock,
+                                keyup: function($event) {
+                                  $event.preventDefault()
+                                  return _vm.toggleLock($event)
+                                },
+                                change: function($event) {
+                                  var $$a = _vm.unlocked.basics,
+                                    $$el = $event.target,
+                                    $$c = $$el.checked ? true : false
+                                  if (Array.isArray($$a)) {
+                                    var $$v = null,
+                                      $$i = _vm._i($$a, $$v)
+                                    if ($$el.checked) {
+                                      $$i < 0 &&
+                                        _vm.$set(
+                                          _vm.unlocked,
+                                          "basics",
+                                          $$a.concat([$$v])
+                                        )
+                                    } else {
+                                      $$i > -1 &&
+                                        _vm.$set(
+                                          _vm.unlocked,
+                                          "basics",
+                                          $$a
+                                            .slice(0, $$i)
+                                            .concat($$a.slice($$i + 1))
+                                        )
+                                    }
+                                  } else {
+                                    _vm.$set(_vm.unlocked, "basics", $$c)
+                                  }
+                                }
                               }
-                            } else {
-                              _vm.$set(_vm.unlocked, "basics", $$c)
-                            }
-                          }
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c(
-                        "label",
-                        {
-                          staticClass: "form-check-label",
-                          attrs: { for: "lock-basics" }
-                        },
-                        [_vm._v("Basic characteristics")]
-                      )
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "form-check form-check-inline p-2" },
-                    [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.unlocked.scores,
-                            expression: "unlocked.scores"
-                          }
-                        ],
-                        staticClass: "form-check-input",
-                        attrs: {
-                          type: "checkbox",
-                          id: "lock-scores",
-                          name: "scores"
-                        },
-                        domProps: {
-                          checked: Array.isArray(_vm.unlocked.scores)
-                            ? _vm._i(_vm.unlocked.scores, null) > -1
-                            : _vm.unlocked.scores
-                        },
-                        on: {
-                          click: _vm.toggleLock,
-                          keyup: function($event) {
-                            $event.preventDefault()
-                            return _vm.toggleLock($event)
-                          },
-                          change: function($event) {
-                            var $$a = _vm.unlocked.scores,
-                              $$el = $event.target,
-                              $$c = $$el.checked ? true : false
-                            if (Array.isArray($$a)) {
-                              var $$v = null,
-                                $$i = _vm._i($$a, $$v)
-                              if ($$el.checked) {
-                                $$i < 0 &&
-                                  _vm.$set(
-                                    _vm.unlocked,
-                                    "scores",
-                                    $$a.concat([$$v])
-                                  )
-                              } else {
-                                $$i > -1 &&
-                                  _vm.$set(
-                                    _vm.unlocked,
-                                    "scores",
-                                    $$a.slice(0, $$i).concat($$a.slice($$i + 1))
-                                  )
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "label",
+                              {
+                                staticClass: "form-check-label",
+                                attrs: { for: "lock-basics" }
+                              },
+                              [_vm._v("About")]
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "form-check form-check-inline p-2" },
+                          [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.unlocked.scores,
+                                  expression: "unlocked.scores"
+                                }
+                              ],
+                              staticClass: "form-check-input",
+                              attrs: {
+                                type: "checkbox",
+                                id: "lock-scores",
+                                name: "scores"
+                              },
+                              domProps: {
+                                checked: Array.isArray(_vm.unlocked.scores)
+                                  ? _vm._i(_vm.unlocked.scores, null) > -1
+                                  : _vm.unlocked.scores
+                              },
+                              on: {
+                                click: _vm.toggleLock,
+                                keyup: function($event) {
+                                  $event.preventDefault()
+                                  return _vm.toggleLock($event)
+                                },
+                                change: function($event) {
+                                  var $$a = _vm.unlocked.scores,
+                                    $$el = $event.target,
+                                    $$c = $$el.checked ? true : false
+                                  if (Array.isArray($$a)) {
+                                    var $$v = null,
+                                      $$i = _vm._i($$a, $$v)
+                                    if ($$el.checked) {
+                                      $$i < 0 &&
+                                        _vm.$set(
+                                          _vm.unlocked,
+                                          "scores",
+                                          $$a.concat([$$v])
+                                        )
+                                    } else {
+                                      $$i > -1 &&
+                                        _vm.$set(
+                                          _vm.unlocked,
+                                          "scores",
+                                          $$a
+                                            .slice(0, $$i)
+                                            .concat($$a.slice($$i + 1))
+                                        )
+                                    }
+                                  } else {
+                                    _vm.$set(_vm.unlocked, "scores", $$c)
+                                  }
+                                }
                               }
-                            } else {
-                              _vm.$set(_vm.unlocked, "scores", $$c)
-                            }
-                          }
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c(
-                        "label",
-                        {
-                          staticClass: "form-check-label",
-                          attrs: { for: "lock-scores" }
-                        },
-                        [_vm._v("Ability scores")]
-                      )
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "form-check form-check-inline p-2" },
-                    [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.unlocked.levels,
-                            expression: "unlocked.levels"
-                          }
-                        ],
-                        staticClass: "form-check-input",
-                        attrs: {
-                          type: "checkbox",
-                          id: "lock-levels",
-                          name: "levels"
-                        },
-                        domProps: {
-                          checked: Array.isArray(_vm.unlocked.levels)
-                            ? _vm._i(_vm.unlocked.levels, null) > -1
-                            : _vm.unlocked.levels
-                        },
-                        on: {
-                          click: _vm.toggleLock,
-                          keyup: function($event) {
-                            $event.preventDefault()
-                            return _vm.toggleLock($event)
-                          },
-                          change: function($event) {
-                            var $$a = _vm.unlocked.levels,
-                              $$el = $event.target,
-                              $$c = $$el.checked ? true : false
-                            if (Array.isArray($$a)) {
-                              var $$v = null,
-                                $$i = _vm._i($$a, $$v)
-                              if ($$el.checked) {
-                                $$i < 0 &&
-                                  _vm.$set(
-                                    _vm.unlocked,
-                                    "levels",
-                                    $$a.concat([$$v])
-                                  )
-                              } else {
-                                $$i > -1 &&
-                                  _vm.$set(
-                                    _vm.unlocked,
-                                    "levels",
-                                    $$a.slice(0, $$i).concat($$a.slice($$i + 1))
-                                  )
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "label",
+                              {
+                                staticClass: "form-check-label",
+                                attrs: { for: "lock-scores" }
+                              },
+                              [_vm._v("Ability scores")]
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "form-check form-check-inline p-2" },
+                          [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.unlocked.levels,
+                                  expression: "unlocked.levels"
+                                }
+                              ],
+                              staticClass: "form-check-input",
+                              attrs: {
+                                type: "checkbox",
+                                id: "lock-levels",
+                                name: "levels"
+                              },
+                              domProps: {
+                                checked: Array.isArray(_vm.unlocked.levels)
+                                  ? _vm._i(_vm.unlocked.levels, null) > -1
+                                  : _vm.unlocked.levels
+                              },
+                              on: {
+                                click: _vm.toggleLock,
+                                keyup: function($event) {
+                                  $event.preventDefault()
+                                  return _vm.toggleLock($event)
+                                },
+                                change: function($event) {
+                                  var $$a = _vm.unlocked.levels,
+                                    $$el = $event.target,
+                                    $$c = $$el.checked ? true : false
+                                  if (Array.isArray($$a)) {
+                                    var $$v = null,
+                                      $$i = _vm._i($$a, $$v)
+                                    if ($$el.checked) {
+                                      $$i < 0 &&
+                                        _vm.$set(
+                                          _vm.unlocked,
+                                          "levels",
+                                          $$a.concat([$$v])
+                                        )
+                                    } else {
+                                      $$i > -1 &&
+                                        _vm.$set(
+                                          _vm.unlocked,
+                                          "levels",
+                                          $$a
+                                            .slice(0, $$i)
+                                            .concat($$a.slice($$i + 1))
+                                        )
+                                    }
+                                  } else {
+                                    _vm.$set(_vm.unlocked, "levels", $$c)
+                                  }
+                                }
                               }
-                            } else {
-                              _vm.$set(_vm.unlocked, "levels", $$c)
-                            }
-                          }
-                        }
-                      }),
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "label",
+                              {
+                                staticClass: "form-check-label",
+                                attrs: { for: "lock-levels" }
+                              },
+                              [_vm._v("Class")]
+                            )
+                          ]
+                        )
+                      ]),
                       _vm._v(" "),
-                      _c(
-                        "label",
-                        {
-                          staticClass: "form-check-label",
-                          attrs: { for: "lock-levels" }
-                        },
-                        [_vm._v("Character levels")]
-                      )
-                    ]
-                  )
+                      _c("div", { staticClass: "col-2 text-right" }, [
+                        _vm.loading
+                          ? _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "spinner-border spinner-border-sm mr-2",
+                                attrs: { role: "status" }
+                              },
+                              [
+                                _c("span", { staticClass: "sr-only" }, [
+                                  _vm._v("Loading...")
+                                ])
+                              ]
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-success",
+                            attrs: { type: "submit" }
+                          },
+                          [_vm._v("Save")]
+                        )
+                      ])
+                    ])
+                  ])
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "row mb-3" }, [
+              _c("div", { staticClass: "col" }, [_c("basics")], 1)
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "row mb-3" }, [
+              _c(
+                "div",
+                { staticClass: "col-md-3 col-lg-2" },
+                [_c("scores")],
+                1
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-9 col-lg-10" }, [
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col" }, [_c("classes")], 1)
                 ]),
                 _vm._v(" "),
-                _vm._m(0)
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col-md-4" }, [_c("skills")], 1)
+                ])
               ])
             ])
           ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "row mb-3" }, [
-        _c("div", { staticClass: "col" }, [_c("basics")], 1)
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "row mb-3" }, [
-        _c("div", { staticClass: "col-md-3 col-lg-2" }, [_c("scores")], 1),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-md-9 col-lg-10" }, [
-          _c("div", { staticClass: "row" }, [
-            _c("div", { staticClass: "col" }, [_c("classes")], 1)
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "row" }, [
-            _c("div", { staticClass: "col-md-4" }, [_c("skills")], 1)
-          ])
-        ])
-      ])
     ]
   )
 }
@@ -39706,13 +39785,14 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-2 text-right" }, [
-      _c(
-        "button",
-        { staticClass: "btn btn-success", attrs: { type: "submit" } },
-        [_vm._v("Save")]
-      )
-    ])
+    return _c(
+      "h1",
+      {
+        staticClass: "spinner-border spinner-border-giant",
+        attrs: { role: "status" }
+      },
+      [_c("span", { staticClass: "sr-only" }, [_vm._v("Loading...")])]
+    )
   }
 ]
 render._withStripped = true
@@ -40140,7 +40220,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "row", attrs: { id: "classes" } }, [
+  return _c("div", { staticClass: "row mb-3", attrs: { id: "classes" } }, [
     _c(
       "div",
       { staticClass: "col d-flex flex-row justify-content-end" },
@@ -40287,7 +40367,7 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _vm._l(_vm.modifiedScores, function(score, key) {
+      _vm._l(_vm.scores, function(score, key) {
         return _c("div", { key: key, staticClass: "col-6 col-md-12" }, [
           _c("div", { staticClass: "card text-center mb-3" }, [
             _c(
@@ -40484,9 +40564,20 @@ var render = function() {
                 _c("span", { staticClass: "mr-3 w-125 text-left" }, [
                   _vm._v(
                     "\n                      +" +
-                      _vm._s(data.baseVal) +
-                      "\n                  "
-                  )
+                      _vm._s(
+                        data.baseVal + data.multiplier * _vm.proficiencyBonus
+                      ) +
+                      "\n                      "
+                  ),
+                  _c("small", [
+                    data.advantage
+                      ? _c("b", [
+                          _vm._v(
+                            "\n                              x2\n                          "
+                          )
+                        ])
+                      : _vm._e()
+                  ])
                 ]),
                 _vm._v(" "),
                 _c("small", { staticClass: "mr-3 w-125 text-left" }, [
@@ -40518,7 +40609,71 @@ var render = function() {
               ]
             ),
             _vm._v(" "),
-            _vm._m(0, true)
+            _c(
+              "div",
+              {
+                staticClass: "dropdown-menu",
+                attrs: {
+                  id: "available-classes",
+                  "aria-labelledby": "dropdownMenuButton"
+                }
+              },
+              [
+                _c(
+                  "button",
+                  {
+                    staticClass:
+                      "dropdown-item d-flex flex-row align-items-center justify-content-start px-3",
+                    attrs: { type: "button", name: "unlearn-" + skill }
+                  },
+                  [
+                    _c("span", { staticClass: "flex-grow-1" }, [
+                      _vm._v("Unlearn")
+                    ]),
+                    _vm._v(" "),
+                    data.multiplier === 0
+                      ? _c("span", { staticClass: "ml-2" }, [_vm._v("✔")])
+                      : _vm._e()
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass:
+                      "dropdown-item d-flex flex-row align-items-center justify-content-start px-3",
+                    attrs: { type: "button", name: "proficient-" + skill }
+                  },
+                  [
+                    _c("span", { staticClass: "flex-grow-1" }, [
+                      _vm._v("Proficient")
+                    ]),
+                    _vm._v(" "),
+                    data.multiplier === 1
+                      ? _c("span", { staticClass: "ml-2" }, [_vm._v("✔")])
+                      : _vm._e()
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass:
+                      "dropdown-item d-flex flex-row align-items-center justify-content-start px-3",
+                    attrs: { type: "button", name: "expertise-" + skill }
+                  },
+                  [
+                    _c("span", { staticClass: "flex-grow-1" }, [
+                      _vm._v("Expertise")
+                    ]),
+                    _vm._v(" "),
+                    data.multiplier === 2
+                      ? _c("span", { staticClass: "ml-2" }, [_vm._v("✔")])
+                      : _vm._e()
+                  ]
+                )
+              ]
+            )
           ]
         )
       }),
@@ -40526,54 +40681,7 @@ var render = function() {
     )
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass: "dropdown-menu",
-        attrs: {
-          id: "available-classes",
-          "aria-labelledby": "dropdownMenuButton"
-        }
-      },
-      [
-        _c(
-          "button",
-          {
-            staticClass:
-              "dropdown-item d-flex flex-row align-items-center justify-content-start px-3",
-            attrs: { type: "button" }
-          },
-          [_vm._v("\n                      Unlearn\n                  ")]
-        ),
-        _vm._v(" "),
-        _c(
-          "button",
-          {
-            staticClass:
-              "dropdown-item d-flex flex-row align-items-center justify-content-start px-3",
-            attrs: { type: "button" }
-          },
-          [_vm._v("\n                      Proficient\n                  ")]
-        ),
-        _vm._v(" "),
-        _c(
-          "button",
-          {
-            staticClass:
-              "dropdown-item d-flex flex-row align-items-center justify-content-start px-3",
-            attrs: { type: "button" }
-          },
-          [_vm._v("\n                      Expertise\n                  ")]
-        )
-      ]
-    )
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -54036,11 +54144,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _data_races___WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../data/races/ */ "./resources/js/data/races/index.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -54090,6 +54200,10 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
       scores: false,
       levels: false,
       wealth: false
+    },
+    loading: {
+      character: true,
+      updating: false
     }
   },
   getters: {
@@ -54118,7 +54232,26 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
     },
     levels: function levels(state) {
       var levels = state.levels;
-      return levels;
+      var sorted = {};
+      Object.keys(levels).sort().forEach(function (key) {
+        return sorted[key] = levels[key];
+      });
+      return sorted;
+    },
+    modifiers: function modifiers(state, getters) {
+      var modifier = function modifier(input) {
+        return Math.floor(input / 2 - 5);
+      };
+
+      var scores = getters.scores;
+      var modifiers = {};
+      Object.keys(scores).forEach(function (score) {
+        modifiers[score] = modifier(scores[score]);
+      });
+      return modifiers;
+    },
+    proficiencyBonus: function proficiencyBonus(state, getters) {
+      return Math.floor(1.75 + getters.totalLevel / 4);
     },
     scores: function scores(state) {
       var _state$character2 = state.character,
@@ -54136,6 +54269,9 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
         wisdom: wisdom,
         charisma: charisma
       };
+    },
+    skills: function skills(state) {
+      return state.skills;
     },
     startingClass: function startingClass(state) {
       return state.character["class"];
@@ -54212,16 +54348,25 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
 
       state.levels = arrayToObject(data, 'class');
     },
+    setLoading: function setLoading(state, _ref) {
+      var key = _ref.key,
+          value = _ref.value;
+      state.loading[key] = value;
+    },
     toggleLock: function toggleLock(state, data) {
       state.unlocked[data] != state.unlocked[data];
     }
   },
   actions: {
-    getCharacter: function getCharacter(_ref) {
-      var commit = _ref.commit,
-          state = _ref.state;
-      api.get(window.location.pathname).then(function (_ref2) {
-        var data = _ref2.data;
+    getCharacter: function getCharacter(_ref2) {
+      var commit = _ref2.commit,
+          state = _ref2.state;
+      commit('setLoading', {
+        key: 'character',
+        value: true
+      });
+      api.get(window.location.pathname).then(function (_ref3) {
+        var data = _ref3.data;
 
         if (!data) {
           throw "Character not found";
@@ -54234,20 +54379,33 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
         commit('setLevels', levels);
       })["catch"](function (exception) {
         return console.error(exception);
+      })["finally"](function () {
+        commit('setLoading', {
+          key: 'character',
+          value: false
+        });
       });
     },
-    saveCharacter: function saveCharacter(_ref3) {
-      var commit = _ref3.commit,
-          state = _ref3.state;
-      console.log(state.characterChanges);
+    saveCharacter: function saveCharacter(_ref4) {
+      var commit = _ref4.commit,
+          state = _ref4.state;
+      commit('setLoading', {
+        key: 'updating',
+        value: true
+      });
       api.patch(window.location.pathname + '/update', {
         character: state.characterChanges,
         levels: Object.values(state.levelChanges)
-      }).then(function (_ref4) {
-        var data = _ref4.data;
+      }).then(function (_ref5) {
+        var data = _ref5.data;
         console.log(data);
       })["catch"](function (exception) {
         return console.error(exception);
+      })["finally"](function () {
+        commit('setLoading', {
+          key: 'updating',
+          value: false
+        });
       });
     }
   }
@@ -54351,9 +54509,11 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Character_vue_vue_type_template_id_79eaae64___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Character.vue?vue&type=template&id=79eaae64& */ "./resources/js/components/Character.vue?vue&type=template&id=79eaae64&");
+/* harmony import */ var _Character_vue_vue_type_template_id_79eaae64_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Character.vue?vue&type=template&id=79eaae64&scoped=true& */ "./resources/js/components/Character.vue?vue&type=template&id=79eaae64&scoped=true&");
 /* harmony import */ var _Character_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Character.vue?vue&type=script&lang=js& */ "./resources/js/components/Character.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _Character_vue_vue_type_style_index_0_id_79eaae64_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Character.vue?vue&type=style&index=0&id=79eaae64&scoped=true&lang=css& */ "./resources/js/components/Character.vue?vue&type=style&index=0&id=79eaae64&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
 
 
 
@@ -54361,13 +54521,13 @@ __webpack_require__.r(__webpack_exports__);
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
   _Character_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _Character_vue_vue_type_template_id_79eaae64___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _Character_vue_vue_type_template_id_79eaae64___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _Character_vue_vue_type_template_id_79eaae64_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Character_vue_vue_type_template_id_79eaae64_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
-  null,
+  "79eaae64",
   null
   
 )
@@ -54393,19 +54553,35 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/Character.vue?vue&type=template&id=79eaae64&":
-/*!******************************************************************************!*\
-  !*** ./resources/js/components/Character.vue?vue&type=template&id=79eaae64& ***!
-  \******************************************************************************/
+/***/ "./resources/js/components/Character.vue?vue&type=style&index=0&id=79eaae64&scoped=true&lang=css&":
+/*!********************************************************************************************************!*\
+  !*** ./resources/js/components/Character.vue?vue&type=style&index=0&id=79eaae64&scoped=true&lang=css& ***!
+  \********************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Character_vue_vue_type_style_index_0_id_79eaae64_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./Character.vue?vue&type=style&index=0&id=79eaae64&scoped=true&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Character.vue?vue&type=style&index=0&id=79eaae64&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Character_vue_vue_type_style_index_0_id_79eaae64_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Character_vue_vue_type_style_index_0_id_79eaae64_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Character_vue_vue_type_style_index_0_id_79eaae64_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Character_vue_vue_type_style_index_0_id_79eaae64_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Character_vue_vue_type_style_index_0_id_79eaae64_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Character.vue?vue&type=template&id=79eaae64&scoped=true&":
+/*!******************************************************************************************!*\
+  !*** ./resources/js/components/Character.vue?vue&type=template&id=79eaae64&scoped=true& ***!
+  \******************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Character_vue_vue_type_template_id_79eaae64___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./Character.vue?vue&type=template&id=79eaae64& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Character.vue?vue&type=template&id=79eaae64&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Character_vue_vue_type_template_id_79eaae64___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Character_vue_vue_type_template_id_79eaae64_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./Character.vue?vue&type=template&id=79eaae64&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Character.vue?vue&type=template&id=79eaae64&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Character_vue_vue_type_template_id_79eaae64_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Character_vue_vue_type_template_id_79eaae64___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Character_vue_vue_type_template_id_79eaae64_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

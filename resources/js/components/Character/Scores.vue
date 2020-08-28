@@ -15,7 +15,7 @@
                 </div>
             </div>
         </div>
-        <div v-for="(score, key) in modifiedScores" :key="key" class="col-6 col-md-12">
+        <div v-for="(score, key) in scores" :key="key" class="col-6 col-md-12">
             <div class="card text-center mb-3">
                 <div class="card-body p-2 d-flex flex-row flex-wrap justify-content-between">
                     <div class="w-100 mb-1">
@@ -72,28 +72,12 @@ export default {
     computed: {
         ...mapGetters({
             scores: 'scores',
-            level: 'totalLevel'
+            level: 'totalLevel',
+            proficiencyBonus: 'proficiencyBonus'
         }),
         ...mapState({
             editing: state => state.unlocked.scores
         }),
-        modifiedScores () {
-            if (!this.bonuses) {
-                return this.scores;
-            }
-
-            const modified = Object.assign({}, this.scores);
-            const keys = Object.keys(this.bonuses);
-            
-            keys.forEach(key => 
-                modified[key] += this.bonuses[key]
-            );
-
-            return modified;
-        },
-        proficiencyBonus () {
-            return Math.floor(1.75+(this.level/4));
-        },
         totalPointBuyCost () {
             let tally = 0;
             Object.keys(this.scores).forEach(key => {

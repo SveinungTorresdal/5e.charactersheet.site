@@ -1,27 +1,6 @@
 <template>
-    <div id="classes" class="row">
+    <div id="classes" class="row mb-3">
         <div class="col d-flex flex-row justify-content-end">
-            <!--
-            <div class="card ml-3">
-                <div class="card-body p-2">
-                    <h5 class="mb-0 d-flex flex-row align-items-center">
-                        <i class="class-icon sorcerer mr-2" />
-                        Sorcerer
-                        <span class="badge badge-dark position-static ml-2">4</span>
-                    </h5>
-                </div>
-            </div>
-            <div class="card ml-3">
-                <div class="card-body p-2">
-                    <h5 class="mb-0 d-flex flex-row align-items-center">
-                        <i class="class-icon warlock mr-2" />
-                        Warlock
-                        <span class="badge badge-dark position-static ml-2"><span>★</span> 4</span>
-                    </h5>
-                </div>
-            </div>
-            -->
-
             <div v-for="level in levels" :key="`${level.class}-${level.level}`" class="card ml-3">
                 <div class="card-body p-2">
                     <h5 class="mb-0 d-flex flex-row align-items-center">

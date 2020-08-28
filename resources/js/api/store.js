@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import axios from 'axios'
+import axios from 'axios';
+
+import * as Races from '../data/races/';
 
 Vue.use(Vuex);
 
@@ -43,7 +45,6 @@ const store = new Vuex.Store({
         levels: [],
         levelChanges: {},
         skills: {
-            
         },
         skillChanges: {},
         unlocked: {
@@ -51,6 +52,10 @@ const store = new Vuex.Store({
             scores: false,
             levels: false,
             wealth: false
+        },
+        loading: {
+            character: true,
+            updating: false
         }
     },
     getters: {
@@ -64,12 +69,31 @@ const store = new Vuex.Store({
         getLocks: state => state.unlocked,
         levels: state => {
             const {levels} = state;
-            return levels;
+
+            const sorted = {};
+            Object.keys(levels).sort().forEach(key => sorted[key] = levels[key]);
+            
+            return sorted;
+        },
+        modifiers: (state, getters) => {
+            const modifier = input => Math.floor(input/2-5);
+            const scores = getters.scores;
+
+            const modifiers = {};
+            Object.keys(scores).forEach(score => {
+                modifiers[score] = modifier(scores[score]);
+            });
+
+            return modifiers;
+        },
+        proficiencyBonus: (state, getters) => {
+            return Math.floor(1.75+(getters.totalLevel/4));
         },
         scores: state => {
             const {strength, dexterity, constitution, intelligence, wisdom, charisma} = state.character;
             return {strength, dexterity, constitution, intelligence, wisdom, charisma};
         },
+        skills: state => state.skills,
         startingClass: state => {
             return state.character.class;
         },
@@ -148,12 +172,17 @@ const store = new Vuex.Store({
 
             state.levels = arrayToObject(data, 'class');
         },
+        setLoading (state, { key, value }) {
+            state.loading[key] = value;
+        },
         toggleLock (state, data) {
             state.unlocked[data] != state.unlocked[data];
         }
     },
     actions: {
         getCharacter ({commit, state}) {
+            commit('setLoading', { key: 'character', value: true });
+
             api.get(window.location.pathname)
             .then(({data}) => {
                 if(!data) {
@@ -162,12 +191,16 @@ const store = new Vuex.Store({
                 console.log(data);
                 const {character, levels} = data;
                 commit('setCharacter', character);
-                commit('setLevels', levels)
+                commit('setLevels', levels);
             })
-            .catch(exception => console.error(exception));
+            .catch(exception => console.error(exception))
+            .finally(() => {
+                commit('setLoading', { key: 'character', value: false });
+            });
         },
         saveCharacter ({commit, state}) {
-            console.log(state.characterChanges);
+            commit('setLoading', { key: 'updating', value: true });
+            
             api.patch(window.location.pathname + '/update', {
                 character: state.characterChanges,
                 levels: Object.values(state.levelChanges)
@@ -175,7 +208,10 @@ const store = new Vuex.Store({
             .then(({data}) => {
                 console.log(data);
             })
-            .catch(exception => console.error(exception));
+            .catch(exception => console.error(exception))
+            .finally(() => {
+                commit('setLoading', { key: 'updating', value: false });
+            });
         }
     }
 });
