@@ -50,21 +50,17 @@
             </div>
         </div>
         <div class="row mb-3">
+            <div class="col">
+                <classes />
+            </div>
+        </div>
+        <div class="row mb-3">
             <div class="col-md-3 col-lg-2">
                 <scores />
             </div>
-            <div class="col-md-9 col-lg-10">
-                <div class="row">
-                    <div class="col">
-                        <classes />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6 col-lg-4">
-                        <saving-throws />
-                        <skills />
-                    </div>
-                </div>
+            <div class="col-md-6 col-lg-4">
+                <saving-throws />
+                <skills />
             </div>
         </div>
         </div>

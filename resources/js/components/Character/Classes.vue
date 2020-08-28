@@ -1,5 +1,5 @@
 <template>
-    <div id="classes" class="row mb-3">
+    <div id="classes" class="row">
         <div class="col d-flex flex-row justify-content-end">
             <div class="card flex-grow-1 blank d-none d-md-flex">
 

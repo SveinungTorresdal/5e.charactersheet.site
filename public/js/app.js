@@ -2011,10 +2011,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -40059,6 +40055,10 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "row mb-3" }, [
+              _c("div", { staticClass: "col" }, [_c("classes")], 1)
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "row mb-3" }, [
               _c(
                 "div",
                 { staticClass: "col-md-3 col-lg-2" },
@@ -40066,20 +40066,12 @@ var render = function() {
                 1
               ),
               _vm._v(" "),
-              _c("div", { staticClass: "col-md-9 col-lg-10" }, [
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col" }, [_c("classes")], 1)
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "row" }, [
-                  _c(
-                    "div",
-                    { staticClass: "col-md-6 col-lg-4" },
-                    [_c("saving-throws"), _vm._v(" "), _c("skills")],
-                    1
-                  )
-                ])
-              ])
+              _c(
+                "div",
+                { staticClass: "col-md-6 col-lg-4" },
+                [_c("saving-throws"), _vm._v(" "), _c("skills")],
+                1
+              )
             ])
           ])
     ]
@@ -40538,7 +40530,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "row mb-3", attrs: { id: "classes" } }, [
+  return _c("div", { staticClass: "row", attrs: { id: "classes" } }, [
     _c(
       "div",
       { staticClass: "col d-flex flex-row justify-content-end" },
