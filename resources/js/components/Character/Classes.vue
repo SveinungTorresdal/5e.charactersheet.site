@@ -1,6 +1,9 @@
 <template>
     <div id="classes" class="row mb-3">
         <div class="col d-flex flex-row justify-content-end">
+            <div class="card flex-grow-1 blank d-none d-md-flex">
+
+            </div>
             <div v-for="level in levels" :key="`${level.class}-${level.level}`" class="card ml-3">
                 <div class="card-body p-2">
                     <h5 class="mb-0 d-flex flex-row align-items-center">
@@ -25,6 +28,11 @@
     </div>
 </template>
 <style scoped>
+    .blank {
+        border-style: dotted;
+        background: none;
+        opacity: .5;
+    }
     #classes-level-up {
         width: 2.5rem;
     }
@@ -53,12 +61,7 @@ export default {
         }),
         ...mapState({
             editing: state => state.unlocked.levels
-        }),
-        classes () {
-            console.log(this.levels);
-
-            return this.levels;
-        }
+        })
     },
     methods: {
         addClass(e) {

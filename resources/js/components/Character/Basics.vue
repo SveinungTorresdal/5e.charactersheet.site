@@ -46,7 +46,7 @@
                         </div>
                         <div class="col-md-4 mb-2">
                             <label for="basics-sex" class="mb-0">
-                                <small>Sex</small>
+                                <small>Gender</small>
                             </label>
                             <input type="text" id="basics-sex" list="available-sexes" :class="{'form-control': editing, 'form-control-plaintext': !editing}" v-model="basics.sex" @change="onChange" :readonly="!editing" />
                             <datalist id="available-sexes">

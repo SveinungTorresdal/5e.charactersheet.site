@@ -42,20 +42,23 @@ const store = new Vuex.Store({
             wisdom: null,
         },
         characterChanges: {},
+        error: {
+            updating: false
+        },
         levels: [],
         levelChanges: {},
-        skills: {
-        },
-        skillChanges: {},
-        unlocked: {
-            basics: false,
-            scores: false,
-            levels: false,
-            wealth: false
-        },
         loading: {
             character: true,
             updating: false
+        },
+        savingThrows: [],
+        skills: {},
+        unlocked: {
+            basics: false,
+            levels: false,
+            scores: false,
+            skills: false,
+            wealth: false
         }
     },
     getters: {
@@ -89,9 +92,18 @@ const store = new Vuex.Store({
         proficiencyBonus: (state, getters) => {
             return Math.floor(1.75+(getters.totalLevel/4));
         },
+        savingThrows: state => state.savingThrows,
         scores: state => {
             const {strength, dexterity, constitution, intelligence, wisdom, charisma} = state.character;
-            return {strength, dexterity, constitution, intelligence, wisdom, charisma};
+            const scores = {strength, dexterity, constitution, intelligence, wisdom, charisma};
+
+            const { bonuses } = Races[state.character.race.replace(/ /g, '')];
+
+            Object.keys(bonuses).forEach(key => {
+                scores[key] += bonuses[key];
+            });
+
+            return scores;
         },
         skills: state => state.skills,
         startingClass: state => {
@@ -136,9 +148,6 @@ const store = new Vuex.Store({
             delete newClass.created_at;
             delete newClass.updated_at;
 
-            
-            console.log(newClass);
-
             state.levels = {
                 ...state.levels,
                 [data]: newClass
@@ -147,6 +156,11 @@ const store = new Vuex.Store({
                 ...state.levelChanges,
                 [data]: newClass
             };
+        },
+        addSavingThrow (state, data) {
+            if(!state.savingThrows.includes(data)) {
+                state.savingThrows.push(data);
+            }
         },
         modifyScore (state, data) {
             const {stat, change} = data;
@@ -158,6 +172,12 @@ const store = new Vuex.Store({
                 state.characterChanges = {...state.characterChanges, ...obj};
             } catch(exception) {
                 console.error(exception);
+            }
+        },
+        removeSavingThrow (state, data) {
+            const index = state.savingThrows.findIndex(item => item === data);
+            if (index > -1) {
+                state.savingThrows.splice(index, 1);
             }
         },
         setCharacter (state, data) {
@@ -188,7 +208,6 @@ const store = new Vuex.Store({
                 if(!data) {
                     throw("Character not found");
                 }
-                console.log(data);
                 const {character, levels} = data;
                 commit('setCharacter', character);
                 commit('setLevels', levels);
@@ -200,13 +219,16 @@ const store = new Vuex.Store({
         },
         saveCharacter ({commit, state}) {
             commit('setLoading', { key: 'updating', value: true });
-            
+    
+            const characterChanges = {
+                ...state.characterChanges,
+                savingThrows: JSON.stringify(state.savingThrows),
+                skills: JSON.stringify(state.skills),
+            };
+
             api.patch(window.location.pathname + '/update', {
-                character: state.characterChanges,
+                character: characterChanges,
                 levels: Object.values(state.levelChanges)
-            })
-            .then(({data}) => {
-                console.log(data);
             })
             .catch(exception => console.error(exception))
             .finally(() => {

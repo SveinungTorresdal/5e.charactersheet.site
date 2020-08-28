@@ -38,6 +38,10 @@ class CreateCharactersTable extends Migration
             $table->integer('wisdom')->default(10);
             $table->integer('charisma')->default(10);
 
+            // Skills
+            $table->json('skills');
+            $table->json('saving-throws');
+
             // Inventory
             $table->unsignedBigInteger('platinum')->default(0);
             $table->unsignedBigInteger('gold')->default(0);
