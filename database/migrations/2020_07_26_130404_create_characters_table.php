@@ -14,8 +14,8 @@ class CreateCharactersTable extends Migration
     public function up()
     {
         Schema::create('characters', function (Blueprint $table) {
-            $table->id();
             $table->uuid('external_id');
+            $table->bigIncrements('id');
             $table->foreignId('user_id')->references('id')->on('users');
             
             // Basic description

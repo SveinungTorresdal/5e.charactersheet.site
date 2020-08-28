@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Character;
+use App\CharacterClass;
 use Illuminate\Http\Request;
 
 class CharacterController extends Controller
@@ -55,13 +56,16 @@ class CharacterController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Character  $character
      * @return \Illuminate\Http\Response
      */
-    public function show($id, Request $request, Character $character)
+    public function show($id, Request $request)
     {
         if($request->header('accept') === 'application/json') {
-            return response()->json(['character' => Character::findOrFail($id)]);
+            $character = Character::findOrFail($id);
+            return response()->json([
+                'character' => $character,
+                'levels' => $character->levels
+            ]);
         } else {
             return view('character');
         }
@@ -81,17 +85,51 @@ class CharacterController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Character  $character
      * @return \Illuminate\Http\Response
      */
-    public function update($id, Request $request, Character $character)
+    public function update($id, Request $request)
     {
         try {
-            $reply = response()->json(Character::where('external_id', $id)->update($request->input('character')));
-            return response()->json(["saved" => $reply ? true : false]);
-        } catch (\Throwable $th) {
-            return response()->json(["error" => $th]);
+            $character = Character::findOrFail($id);
+        } catch (Throwable $exception) {
+            return response()->json([
+                'error' => $exception->getMessage(),
+                'errorStage' => 'Failed character fetch'
+            ]);
         }
+
+        try {
+            $replyCharacter = $character->first()->update(
+                $request->input('character')      
+            );
+        } catch (Throwable $exception) {
+            return response()->json([
+                'error' => $exception->getMessage(),
+                'errorStage' => 'Failed character update'
+            ]);
+        }
+
+        try {
+            $newLevels = $request->input('levels');
+            foreach($newLevels as $level) {
+                CharacterClass::updateOrCreate(
+                    [ 
+                        'id' => $level['id']
+                    ], [ 
+                        'character_id' => $level['character_id'],
+                        'class' => $level['class'],
+                        'level' => $level['level'],
+                    ]
+                );
+            }
+        } catch(Throwable $exception) {
+            return response()->json([
+                'error' => $exception->getMessage(),
+                'errorStage' => 'Failed updating character related model \'CharacterClass\''
+            ]);
+        }
+
+        return response()->json(["saved" => ["character" => $replyCharacter, "levels" => $newLevels]]);
     }
 
     /**

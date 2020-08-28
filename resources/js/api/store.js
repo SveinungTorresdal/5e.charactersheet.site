@@ -40,9 +40,16 @@ const store = new Vuex.Store({
             wisdom: null,
         },
         characterChanges: {},
+        levels: [],
+        levelChanges: {},
+        skills: {
+            
+        },
+        skillChanges: {},
         unlocked: {
             basics: false,
             scores: false,
+            levels: false,
             wealth: false
         }
     },
@@ -56,20 +63,23 @@ const store = new Vuex.Store({
         },
         getLocks: state => state.unlocked,
         levels: state => {
-            const {levels} = state.character;
-            return {levels};
+            const {levels} = state;
+            return levels;
         },
         scores: state => {
             const {strength, dexterity, constitution, intelligence, wisdom, charisma} = state.character;
             return {strength, dexterity, constitution, intelligence, wisdom, charisma};
         },
+        startingClass: state => {
+            return state.character.class;
+        },
         totalLevel: state => {
-            if(!state.character.levels) {
+            if(!state.levels) {
                 return 0;
             }
 
             let sum = 0;
-            this.levels.forEach(item => sum += item.level);
+            Object.values(state.levels).forEach(item => sum += item.level);
 
             return sum;
         },
@@ -78,15 +88,41 @@ const store = new Vuex.Store({
         }
     },
     mutations: {
-        setCharacter (state, data) {
-            state.character = data;
-        },
         addCharacterChange (state, data) {
             try {
                 state.characterChanges = {...state.characterChanges, ...data};
             } catch(exception) {
                 console.error(exception);
             }
+        },
+        addCharacterClass (state, data) {
+            if (!state.character.class) {
+                state.character.class = data;
+            }
+
+            const existing = state.levels[data];
+            const newClass = {
+                id: null,
+                character_id: state.character.id,
+                class: data,
+                level: 0,
+                ...existing
+            };
+            newClass.level++;
+            delete newClass.created_at;
+            delete newClass.updated_at;
+
+            
+            console.log(newClass);
+
+            state.levels = {
+                ...state.levels,
+                [data]: newClass
+            };
+            state.levelChanges = {
+                ...state.levelChanges,
+                [data]: newClass
+            };
         },
         modifyScore (state, data) {
             const {stat, change} = data;
@@ -100,6 +136,18 @@ const store = new Vuex.Store({
                 console.error(exception);
             }
         },
+        setCharacter (state, data) {
+            state.character = data;
+        },
+        setLevels (state, data) {
+            const arrayToObject = (array, keyField) =>
+                array.reduce((obj, item) => {
+                    obj[item[keyField]] = item
+                    return obj
+                }, {})
+
+            state.levels = arrayToObject(data, 'class');
+        },
         toggleLock (state, data) {
             state.unlocked[data] != state.unlocked[data];
         }
@@ -111,14 +159,19 @@ const store = new Vuex.Store({
                 if(!data) {
                     throw("Character not found");
                 }
-                const {character} = data;
+                console.log(data);
+                const {character, levels} = data;
                 commit('setCharacter', character);
+                commit('setLevels', levels)
             })
             .catch(exception => console.error(exception));
         },
         saveCharacter ({commit, state}) {
             console.log(state.characterChanges);
-            api.patch(window.location.pathname + '/update', {character: state.characterChanges})
+            api.patch(window.location.pathname + '/update', {
+                character: state.characterChanges,
+                levels: Object.values(state.levelChanges)
+            })
             .then(({data}) => {
                 console.log(data);
             })

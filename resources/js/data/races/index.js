@@ -5,8 +5,10 @@ import IronforgeDwarf from './IronforgeDwarf.json';
 import Orc from './Orc.json';
 import WildhammerDwarf from './WildhammerDwarf.json'
 
-const HighElf = {...BloodElf};
-HighElf.name = "High Elf";
+const HighElf = {
+    ...BloodElf,
+    name: 'High Elf'
+};
 
 export {
     BloodElf,

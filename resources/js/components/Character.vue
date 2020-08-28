@@ -14,6 +14,10 @@
                                     <input class="form-check-input" type="checkbox" id="lock-scores" name="scores" v-model="unlocked.scores" @click="toggleLock" @keyup.prevent="toggleLock">
                                     <label class="form-check-label" for="lock-scores">Ability scores</label>
                                 </div>
+                                <div class="form-check form-check-inline p-2">
+                                    <input class="form-check-input" type="checkbox" id="lock-levels" name="levels" v-model="unlocked.levels" @click="toggleLock" @keyup.prevent="toggleLock">
+                                    <label class="form-check-label" for="lock-levels">Character levels</label>
+                                </div>
                             </div>
                             <div class="col-2 text-right">
                                 <button class="btn btn-success" type="submit">Save</button>
@@ -33,7 +37,16 @@
                 <scores />
             </div>
             <div class="col-md-9 col-lg-10">
-                <classes />
+                <div class="row">
+                    <div class="col">
+                        <classes />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <skills />
+                    </div>
+                </div>
             </div>
         </div>
     </form>
@@ -41,14 +54,15 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex';
-import { Basics, Classes, Scores } from './Character/';
+import { Basics, Classes, Scores, Skills } from './Character/';
 
 export default {
     name: "Character",
     components: {
         Basics,
         Classes,
-        Scores
+        Scores,
+        Skills
     },
     beforeCreate () {
         this.$store.dispatch('getCharacter');
